@@ -28,7 +28,7 @@ if mydb.is_connected():
 
 
 
-try:
+try: #Lager table og hvis den allerede finnes/ du får en error så printer den ut The tables already exist
 
     
     mycursor.execute("CREATE TABLE artister (id INT AUTO_INCREMENT PRIMARY KEY, artist VARCHAR(50), sanger INT, sjanger VARCHAR(50))")
@@ -54,7 +54,7 @@ except:
 
 
 
-if False == True: 
+if False == True: #gjør ikke denne delen av koden, jeg har den her for å minne meg på hva variablene het
     try:
         print("allerede lagd")
         #mydb = mysql.connector.connect(
@@ -160,7 +160,7 @@ if False == True:
 #    print("error sorting")
 
 
-def Sorter_Mengde():
+def Sorter_Mengde(): #sorterer hvor mange sanger som enhver artist har lagd.
     mydb = mysql.connector.connect(
     host = "10.200.14.24",
     port = 3306,
@@ -184,21 +184,20 @@ def Sorter_Mengde():
 Sorter_Mengde()
 
 
-while True:
+while True: #Looper igjen og igjen for ikke å stoppe programmet
 
     print("+------------+-----------------+")
     print("|  Lese (1)  |   Redigere (2)  |")
     print("+------------+-----------------+")
     InitQ = input(" ")
-    if InitQ.lower() == "1":
+    if InitQ.lower() == "1": # Leser fra databasen
         while True:
             print("+--------------+-----------------+-------------+---------------------------+")
             print("|  Sanger (1)  |   Artister (2)  |   Exit (3)  |   Navnet til sang/artist  |")
             print("+--------------+-----------------+-------------+---------------------------+")
 
             ReadQ = input(" ")
-            if ReadQ.lower() == "1":
-                #skriver ut alle sangene
+            if ReadQ.lower() == "1": #skriver ut alle sangene
                 mydb = mysql.connector.connect(
                 host = "10.200.14.24",
                 port = 3306,
@@ -214,7 +213,7 @@ while True:
 
                 for x in myresult:
                     print(x)
-            elif ReadQ.lower() == "2":
+            elif ReadQ.lower() == "2": #skriver ut alle artistene
                 mydb = mysql.connector.connect(
                 host = "10.200.14.24",
                 port = 3306,
@@ -231,27 +230,27 @@ while True:
                 for x in myresult:
                     print(x)
 
-            elif ReadQ.lower() == "3":
+            elif ReadQ.lower() == "3": #går tilbake
                 break
-            else:
+            else: #hvis du skrev noe annet så antar den at det er navnet til sangen/artisten
 
                 print("+----------------+---------------+")
                 print("|  Artisten (1)  |   Sangen (2)  |")
                 print("+----------------+---------------+")
                 BestemtQ = input(" ")
-                if BestemtQ.lower() == "1":
+                if BestemtQ.lower() == "1": 
 
-                    
-                    sql = f"SELECT * FROM artister WHERE artist ='{ReadQ}'"
+                    try:
+                        sql = f"SELECT * FROM artister WHERE artist ='{ReadQ}'"
 
-                    mycursor.execute(sql)
-                    myresult = mycursor.fetchall()
+                        mycursor.execute(sql)
+                        myresult = mycursor.fetchall()
 
-                    for x in myresult:
-                        print(x)
+                        for x in myresult:
+                            print(x)
                     
                 
-                    try:
+                    
                         sql = f"SELECT * FROM sanger WHERE artist ='{ReadQ}'"
 
                         mycursor.execute(sql)
@@ -276,20 +275,19 @@ while True:
                         print("den sangen finnes ikke")
                 else:
                     print("error")
-    #Redigerer databasen
-    elif InitQ.lower() == "2":
+    elif InitQ.lower() == "2": #Redigerer databasen
         while True:
             print("+--------------+-----------------+-------------+")
             print("|  Artister (1)  |   Sanger (2)  |   Exit (3)  |")
             print("+--------------+-----------------+-------------+")
             TableQ = input(" ")
-            if TableQ.lower() == "1":
+            if TableQ.lower() == "1": #Lar deg redigere artister tabellen
                 while True:
                     print("+--------------+-----------------+--------+")
                     print("|  Add (1)  |   Update (2)  |   Exit (3)  |")
                     print("+--------------+-----------------+--------+")
                     ActionQ = input(" ")
-                    if ActionQ.lower() == "1":
+                    if ActionQ.lower() == "1": #Lar deg legge til en ny artist
                         print("+--------------------------------------------+")
                         print("|  Hva heter artisten din? (case sensetive)  |")
                         print("+--------------------------------------------+")
@@ -313,7 +311,7 @@ while True:
                         print(mycursor.rowcount, "record inserted.")
 
                         Sorter_Mengde()
-                    elif ActionQ.lower() == "2":
+                    elif ActionQ.lower() == "2": #Lar deg redigere sangen du vil redigere en artist
                         print("+--------------------------------------+")
                         print("|  Navn til artisten du vil redigere:  |")
                         print("+--------------------------------------+")
@@ -347,13 +345,13 @@ while True:
                         break
                     else:
                         print("error")
-            elif TableQ.lower() == "2":
+            elif TableQ.lower() == "2": #Lar deg redigere sanger tabellen
 
                     print("+-----------+---------------+-------------+")
                     print("|  Add (1)  |   Update (2)  |   Exit (3)  |")
                     print("+-----------+---------------+-------------+")
                     ActionQ = input(" ")
-                    if ActionQ.lower() == "1":
+                    if ActionQ.lower() == "1": #Lar deg legge til en ny sang
 
                         print("+-------------------------+")
                         print("|  Hva heter sangen din?  |")
@@ -390,7 +388,7 @@ while True:
 
                         Sorter_Mengde()
 
-                    elif ActionQ.lower() == "2":
+                    elif ActionQ.lower() == "2": #Lar deg redigere en sang
                         try:
                             print("+-------------------------------------+")
                             print("|  Hva heter sangen du vil forandre?  |")
